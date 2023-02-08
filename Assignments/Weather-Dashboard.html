@@ -280,10 +280,10 @@ btn.addEventListener('click', function()
     city.innerHTML=`<span>${nameval},${cntry}<span>`
   
     temp.innerHTML = `${ convertion(tempature)}&#176C`
-    description.innerHTML = `<figure style="align:right">  
+    description.innerHTML = `<figure >  
         <img id="description" src="http://openweathermap.org/img/w/${icon}.png" alt="DescIcon" width="50" height="50"/>
           
-<figcaption id="description">${descrip}</figcaption>
+<figcaption>${descrip}</figcaption>
 </figure>`
     wind.innerHTML = `Feels Like: ${convertion(feelsLike)} &#176C<span>`
     cntry.innerHTML=`Country:<span>${cntry}<span>`
