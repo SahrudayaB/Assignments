@@ -137,14 +137,10 @@ font-weight: 300;
 
 #description
 {
-
+font-size:18px;
 text-align : right;
+text-transform: capitalize;
 }
-
-#description {
- text-transform: capitalize; 
-}
-
 #wind
 {
 padding-top:0px;
@@ -280,10 +276,15 @@ btn.addEventListener('click', function()
     var latt = data['coord']['lat']
     var dat = data['dt']
     var feelsLike = data['main']['feels_like']
+    var icon = data['weather']['0']['icon']
     city.innerHTML=`<span>${nameval},${cntry}<span>`
   
     temp.innerHTML = `${ convertion(tempature)}&#176C`
-    description.innerHTML = `${descrip}`
+    description.innerHTML = `<figure style="align:right">  
+        <img id="description" src="http://openweathermap.org/img/w/${icon}.png" alt="DescIcon" width="50" height="50"/>
+          
+<figcaption id="description">${descrip}</figcaption>
+</figure>`
     wind.innerHTML = `Feels Like: ${convertion(feelsLike)} &#176C<span>`
     cntry.innerHTML=`Country:<span>${cntry}<span>`
     sunrise.innerHTML=`<figure style="align:left">  
