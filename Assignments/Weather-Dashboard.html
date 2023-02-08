@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+}
+.opaque
+{
+    /*background: #116396;*/
+    background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-weather/draw1.webp');
+    
+    
+    background-image: linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,0.4)), url("https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-weather/draw1.webp");
+  background-repeat: no-repeat;
+  background-attachment: fixed;  
+  background-size: cover; 
+  
+}
+
+.container-fluid
+{
+    width: 400px;
+    margin: 60px auto;
+    padding: 10px;
+}
+.inputs 
+{
+    padding: 1rem 0 2rem 0; 
+    text-align: center;
+    justify-content: center;
+   /* background: white;*/
+}
+.inputs input[type="text"] 
+{
+    height: 4rem;
+    width: 20rem;
+    /*background: #212121;*/
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 10px;
+    border: none;
+    background-color: transparent;
+    border: 2px solid #c2c2c2;
+    border-radius: 2px;
+    margin-right:4px ;
+}
+.inputs input[type="submit"] 
+{
+    height: 3rem;
+    width: 6rem;
+    background: #0a67ca;
+    background: #000;
+    font-weight: bold;
+   color: white;
+  
+    font-size: 1rem;
+    margin-top: 20px;
+    border: none;
+    border-radius: 2px;
+}
+.display 
+{
+    text-align: center;
+    width: 400px;
+    color: #16a864;
+    padding-top : 0;
+}
+.wrapper 
+{
+    margin: 0 9rem;
+    /*background-color: white;*/
+    height: 45vh;
+    margin: -10px auto;
+    border-radius: 2px;
+}
+
+.wrapper h2
+{
+    padding: 5px 0;
+    text-align: center;
+   /* background: #0548b5;*/
+    color: white;
+    font-family: sans-serif;
+}
+.wrapper p
+{
+    margin:20px 50px;
+    margin-right: 20px;
+    text-align: left;
+    color: #04214c;
+    font-size:23px;
+}
+.wrapper h2 span
+{
+    font-size: 26px;
+   /* color: #9beefb;*/
+   color: #000;
+}
+.wrapper p span
+{
+    color: #f4780d;
+    font-size: 25px;
+}
+
+#cityoutput
+{
+ text-align: left;
+ font-weight: 100;
+border-bottom: 1px solid black;
+padding-bottom: 5px;
+ 
+}
+#myselection{
+height: 4rem;
+    width: 20rem;
+    /*background: #212121;*/
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 10px;
+    border: none;
+    background-color: transparent;
+    border: 2px solid #c2c2c2;
+    border-radius: 2px;
+    margin-right:4px ;
+
+
+}
+#temp{
+
+font-size: 80px;
+color: #F4780D;
+font-weight: 300;
+}
+
+#description
+{
+
+text-align : right;
+}
+
+#description {
+ text-transform: capitalize; 
+}
+
+#wind
+{
+padding-top:0px;
+
+}
+
+#sunrise,#sunset{
+font-size : 18px;
+
+}
+</style>
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
+</head>
+
+<body class="opaque">
+  <div class="container-fluid">
+    <section class="main">
+      <section class="inputs">
+        <!--<input type="text" placeholder="Enter any city..." id="cityinput">-->
+        <select id="myselection" class="inputs">
+        </select>
+        <input type="submit" value="Add" id="add">
+        <button placeholder="submit" id="add" onclick="getcity()"></button>
+      </section>
+      
+     <section class="display">
+        <div class="wrapper">
+          <h2 id="cityoutput"></h2>
+          <p id="description"></p>
+          <p id="temp"></p>
+          <p id="wind"></p>
+      <!--  <figure>  
+        <img id="sunrise" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7KHznJ84OyZmCi-xJEj7-cIrH-Qeemz2Rrw&usqp=CAU.png" alt="Sunrise" width="70" height="50"/>
+          
+<figcaption id="sunrise"></figcaption>
+</figure>
+
+<figure>
+   <img id="sunset" src=" http://www.clker.com/cliparts/m/z/7/O/Z/E/sunset-red-clipart-md.png" alt="Sunset" width="70" height="50">
+   
+   <figcaption id="sunset"></figcaption>
+   
+  </figure>
+        </div>
+      </section>
+    </section>
+<div class="row">-->
+<p id="sunrise" style="float:left"></p>
+<p id="sunset" style="float:right"></p>
+</div>
+  </div>
+</body>
+
+
+
+
+<script>
+
+var inputval = document.querySelector('#cityinput')
+var btn = document.querySelector('#add');
+var city = document.querySelector('#cityoutput')
+var descrip = document.querySelector('#description')
+var temp = document.querySelector('#temp')
+var wind = document.querySelector('#wind')
+var sunrise = document.querySelector('#sunrise')
+var sunset = document.querySelector('#sunset')
+//var sunrise = document.getElementsByTagName('figcaption')
+//var sunset = document.getElementsByTagName('figcaption')
+
+apik = "3045dd712ffe6e702e3245525ac7fa38"
+function convertion(val)
+{
+    return (val - 273).toFixed(2)
+}
+
+function convertTime(value){
+
+ let date = new Date(value*1000).toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'});
+ return date;
+
+}
+
+fetch('https://raw.githubusercontent.com/russ666/all-countries-and-cities-json/6ee538beca8914133259b401ba47a550313e8984/countries.json')
+  .then(resp => resp.json())
+
+ .then(datap => 
+  {
+    var namevalue = datap["India"]
+   
+   var cityselect = document.getElementById("myselection")
+   
+   for(var i=0;i<namevalue.length;i++){
+   var option = document.createElement("OPTION");
+   
+   //Set City Name in Text part.
+   option.innerHTML = namevalue[i];
+   
+   //Set cityname in Value part.
+   option.value = namevalue[i];
+   
+   //Add the Option element to DropDownList.
+   cityselect.options.add(option);
+   } // end-for
+    
+    
+  })
+ 
+  function getcity(){
+  alert("hi");
+  var getcty=document.getElementById("myselection");
+  document.getElementById("cityoutput").innerHTML=(getcty.value);
+  
+  }
+btn.addEventListener('click', function()
+{
+
+  var ct = document.getElementById("myselection");
+  
+  fetch('https://api.openweathermap.org/data/2.5/weather?q='+ct.value+'&appid='+apik)
+  .then(res => res.json())
+
+
+  .then(data => 
+  {
+    var nameval = data['name']
+    var descrip = data['weather']['0']['description']
+    var tempature = data['main']['temp']
+    var wndspd = data['wind']['speed']
+    var cntry = data['sys']['country']
+    var sunrise1 = data['sys']['sunrise']
+    var sunset1 = data['sys']['sunset']
+    var latt = data['coord']['lat']
+    var dat = data['dt']
+    var feelsLike = data['main']['feels_like']
+    city.innerHTML=`<span>${nameval},${cntry}<span>`
+  
+    temp.innerHTML = `${ convertion(tempature)}&#176C`
+    description.innerHTML = `${descrip}`
+    wind.innerHTML = `Feels Like: ${convertion(feelsLike)} &#176C<span>`
+    cntry.innerHTML=`Country:<span>${cntry}<span>`
+    sunrise.innerHTML=`<figure style="align:left">  
+        <img id="sunrise" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7KHznJ84OyZmCi-xJEj7-cIrH-Qeemz2Rrw&usqp=CAU.png" alt="Sunrise" width="70" height="50"/>
+          
+<figcaption id="sunrise">${convertTime(sunrise1)}</figcaption>
+</figure>`
+    sunset.innerHTML=`<figure style="align:right">
+   <img id="sunset" src=" http://www.clker.com/cliparts/m/z/7/O/Z/E/sunset-red-clipart-md.png" alt="Sunset" width="70" height="50">
+   
+   <figcaption id="sunset">${convertTime(sunset1)}</figcaption>
+   
+  </figure>`
+
+  })
+
+  .catch(err => alert('You entered Wrong city name'))
+})
+</script>
+</html>
