@@ -66,7 +66,11 @@
     text-align: center;
     width: 400px;
     color: #16a864;
-    padding-top : 0;
+    /*padding-top : 0;*/
+    
+    
+   
+}
 }
 .wrapper 
 {
@@ -75,6 +79,8 @@
     height: 45vh;
     margin: -10px auto;
     border-radius: 2px;
+    
+    
 }
 
 .wrapper h2
@@ -137,10 +143,15 @@ font-weight: 300;
 
 #description
 {
-font-size:18px;
+
 text-align : right;
-text-transform: capitalize;
+font-size:18px;
 }
+
+#description {
+ text-transform: capitalize; 
+}
+
 #wind
 {
 padding-top:0px;
@@ -203,7 +214,7 @@ font-size : 18px;
 var inputval = document.querySelector('#cityinput')
 var btn = document.querySelector('#add');
 var city = document.querySelector('#cityoutput')
-var descrip = document.querySelector('#description')
+var description = document.querySelector('#description')
 var temp = document.querySelector('#temp')
 var wind = document.querySelector('#wind')
 var sunrise = document.querySelector('#sunrise')
@@ -277,6 +288,7 @@ btn.addEventListener('click', function()
     var dat = data['dt']
     var feelsLike = data['main']['feels_like']
     var icon = data['weather']['0']['icon']
+    
     city.innerHTML=`<span>${nameval},${cntry}<span>`
   
     temp.innerHTML = `${ convertion(tempature)}&#176C`
