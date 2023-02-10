@@ -22,8 +22,8 @@
 
 .container-fluid
 {
-    width: 400px;
-    margin: 60px auto;
+    
+    margin: 20px;
     padding: 10px;
 }
 .inputs 
@@ -64,20 +64,17 @@
 .display 
 {
     text-align: center;
-    width: 400px;
+   /* width: 400px;*/
     color: #16a864;
-    /*padding-top : 0;*/
-    
-    
-   
+    /*padding-top : 0;*/ 
 }
 }
 .wrapper 
 {
     margin: 0 9rem;
-    /*background-color: white;*/
+    background-color: white;
     height: 45vh;
-    margin: -10px auto;
+    margin: 20px auto;
     border-radius: 2px;
     
     
@@ -136,9 +133,11 @@ height: 4rem;
 }
 #temp{
 
-font-size: 80px;
+font-size: 75px;
 color: #F4780D;
 font-weight: 300;
+text-align: center; 
+position: relative;
 }
 
 #description
@@ -146,9 +145,6 @@ font-weight: 300;
 
 text-align : right;
 font-size:18px;
-}
-
-#description {
  text-transform: capitalize; 
 }
 
@@ -162,6 +158,51 @@ padding-top:0px;
 font-size : 18px;
 
 }
+/* Float four columns side by side */
+.column {
+  float: left;
+  width: 33%;
+  padding: 10px 10px;
+  
+}
+
+/* Remove extra left and right margins, due to padding */
+.row {margin: 0 -5px;}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+Responsive columns 
+@media screen and (max-width: 330px) {
+  .column {
+    width: 33%;
+    display: block;
+    margin-bottom: 20px;
+    position:relative;
+  }
+}
+
+/* Style the counter cards */
+.card {
+  
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  text-align: center;
+  background-color: #f0f8ff;
+  opacity : 0.8;
+   height : 430px;
+   width : 320px;
+   /*width: fit-content;*/
+   position : relative;
+  
+}
+
+.dis{display:none;}
+
 </style>
 <head>
   <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
@@ -169,58 +210,42 @@ font-size : 18px;
 
 <body class="opaque">
   <div class="container-fluid">
-    <section class="main">
+    <section class="">
       <section class="inputs">
         <!--<input type="text" placeholder="Enter any city..." id="cityinput">-->
         <select id="myselection" class="inputs">
         </select>
         <input type="submit" value="Add" id="add">
-        <button placeholder="submit" id="add" onclick="getcity()"></button>
+        <button placeholder="submit" id="btn"></button>
       </section>
       
-     <section class="display">
-        <div class="wrapper">
+     <div class="row" id="cityholder">
+        <div class="column dis">
+         <div class="card">
           <h2 id="cityoutput"></h2>
           <p id="description"></p>
           <p id="temp"></p>
           <p id="wind"></p>
-      <!--  <figure>  
-        <img id="sunrise" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7KHznJ84OyZmCi-xJEj7-cIrH-Qeemz2Rrw&usqp=CAU.png" alt="Sunrise" width="70" height="50"/>
-          
-<figcaption id="sunrise"></figcaption>
-</figure>
-
-<figure>
-   <img id="sunset" src=" http://www.clker.com/cliparts/m/z/7/O/Z/E/sunset-red-clipart-md.png" alt="Sunset" width="70" height="50">
-   
-   <figcaption id="sunset"></figcaption>
-   
-  </figure>
-        </div>
-      </section>
-    </section>
-<div class="row">-->
-<p id="sunrise" style="float:left"></p>
-<p id="sunset" style="float:right"></p>
+          <p id="sunrise" style="float:left"> </p>          
+          <p id="sunset" style="float:right"></p>           
 </div>
   </div>
-</body>
-
-
-
+  </div>
+ </section>
+</div>
 
 <script>
-
-var inputval = document.querySelector('#cityinput')
-var btn = document.querySelector('#add');
-var city = document.querySelector('#cityoutput')
+var holder = document.querySelector('#cityholder')
+/*var inputval = document.querySelector('#cityinput') //city input*/
+var btn = document.querySelector('#add') //add button
+/*var city = document.querySelector('#cityoutput') //city output
 var description = document.querySelector('#description')
 var temp = document.querySelector('#temp')
 var wind = document.querySelector('#wind')
 var sunrise = document.querySelector('#sunrise')
-var sunset = document.querySelector('#sunset')
+var sunset = document.querySelector('#sunset')*/
 //var sunrise = document.getElementsByTagName('figcaption')
-//var sunset = document.getElementsByTagName('figcaption')
+//var sunset = document.getElementsByTagName('figcaption')*/
 
 apik = "3045dd712ffe6e702e3245525ac7fa38"
 function convertion(val)
@@ -258,20 +283,15 @@ fetch('https://raw.githubusercontent.com/russ666/all-countries-and-cities-json/6
    } // end-for
     
     
-  })
+  }) // datap end
  
-  function getcity(){
-  alert("hi");
-  var getcty=document.getElementById("myselection");
-  document.getElementById("cityoutput").innerHTML=(getcty.value);
-  
-  }
+ 
 btn.addEventListener('click', function()
 {
 
-  var ct = document.getElementById("myselection");
+  var cty = document.getElementById("myselection");
   
-  fetch('https://api.openweathermap.org/data/2.5/weather?q='+ct.value+'&appid='+apik)
+  fetch('https://api.openweathermap.org/data/2.5/weather?q='+cty.value+'&appid='+apik)
   .then(res => res.json())
 
 
@@ -288,32 +308,86 @@ btn.addEventListener('click', function()
     var dat = data['dt']
     var feelsLike = data['main']['feels_like']
     var icon = data['weather']['0']['icon']
-    
-    city.innerHTML=`<span>${nameval},${cntry}<span>`
-  
-    temp.innerHTML = `${ convertion(tempature)}&#176C`
-    description.innerHTML = `<figure >  
+     
+    //alert(nameval)
+ 
+
+var divCol = document.createElement("div")
+var divCard = document.createElement("div")
+var h2cityoutput = document.createElement("h2")
+var pdescription = document.createElement("p")
+var ptemp = document.createElement("p")
+var pwind = document.createElement("p")
+var psunrise = document.createElement("p")
+var psunset = document.createElement("p")
+ 
+console.log("created elements successfully")
+
+divCol.className ="wrapper column"
+divCard.className = "card"
+
+h2cityoutput.setAttribute("id","cityoutput")
+h2cityoutput.innerHTML =`<span>${nameval},${cntry}<span>`
+
+pdescription.setAttribute("id","description")
+pdescription.innerHTML =`<figure >  
         <img id="description" src="http://openweathermap.org/img/w/${icon}.png" alt="DescIcon" width="50" height="50"/>
           
 <figcaption>${descrip}</figcaption>
 </figure>`
-    wind.innerHTML = `Feels Like: ${convertion(feelsLike)} &#176C<span>`
-    cntry.innerHTML=`Country:<span>${cntry}<span>`
-    sunrise.innerHTML=`<figure style="align:left">  
+
+ptemp.setAttribute("id","temp")
+ptemp.innerHTML =`${convertion(tempature)}&#176C`
+
+pwind.setAttribute("id","wind")
+pwind.innerHTML =`Feels Like: ${convertion(feelsLike)} &#176C`
+
+psunrise.setAttribute("id","sunrise")
+psunrise.innerHTML =`<figure style="float:left">  
         <img id="sunrise" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7KHznJ84OyZmCi-xJEj7-cIrH-Qeemz2Rrw&usqp=CAU.png" alt="Sunrise" width="70" height="50"/>
           
 <figcaption id="sunrise">${convertTime(sunrise1)}</figcaption>
 </figure>`
-    sunset.innerHTML=`<figure style="align:right">
+
+psunset.setAttribute("id","sunset")
+psunset.innerHTML =`<figure style="float:right">
    <img id="sunset" src=" http://www.clker.com/cliparts/m/z/7/O/Z/E/sunset-red-clipart-md.png" alt="Sunset" width="70" height="50">
    
    <figcaption id="sunset">${convertTime(sunset1)}</figcaption>
    
   </figure>`
 
-  })
+console.log("set attributes and classNames successful")
 
-  .catch(err => alert('You entered Wrong city name'))
+divCol.appendChild(divCard)
+divCard.appendChild(h2cityoutput)
+divCard.appendChild(pdescription)
+divCard.appendChild(ptemp)
+divCard.appendChild(pwind)
+divCard.appendChild(psunrise)
+divCard.appendChild(psunset)
+
+cityholder.appendChild(divCol)
+
+var item = cityholder.appendChild(divCol)
+bindTaskEvents(item)
 })
+
+.catch(err => alert('You entered Wrong city name'))
+})
+
+var ajaxRequest=function(){
+console.log("AJAX Request");
+}
+
+//btn.addEventListener("click",ajaxRequest);
+
+var bindTaskEvents=function(cityItem){
+console.log("bind city list");
+
+document.getElementById("myselection").value="Abdul";
+
+}
 </script>
+</body>
 </html>
