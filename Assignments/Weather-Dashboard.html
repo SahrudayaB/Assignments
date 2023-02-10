@@ -203,6 +203,10 @@ Responsive columns
 
 .dis{display:none;}
 
+#deleteImg{
+float:right;
+}
+
 </style>
 <head>
   <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
@@ -320,6 +324,10 @@ var ptemp = document.createElement("p")
 var pwind = document.createElement("p")
 var psunrise = document.createElement("p")
 var psunset = document.createElement("p")
+var deleteButton = document.createElement("button")
+
+deleteButton.setAttribute("id","deleteImg")
+deleteButton.innerHTML='<img src="https://www.pngall.com/wp-content/uploads/5/Delete-Bin-Trash-Transparent.png" alt="Delete icon" width="25" height="25"/>'
  
 console.log("created elements successfully")
 
@@ -358,9 +366,10 @@ psunset.innerHTML =`<figure style="float:right">
   </figure>`
 
 console.log("set attributes and classNames successful")
-
+deleteButton.onclick=deleteCity
 divCol.appendChild(divCard)
 divCard.appendChild(h2cityoutput)
+h2cityoutput.appendChild(deleteButton)
 divCard.appendChild(pdescription)
 divCard.appendChild(ptemp)
 divCard.appendChild(pwind)
@@ -370,11 +379,25 @@ divCard.appendChild(psunset)
 cityholder.appendChild(divCol)
 
 var item = cityholder.appendChild(divCol)
+
 bindTaskEvents(item)
 })
 
-.catch(err => alert('You entered Wrong city name'))
+.catch(err => alert('You entered Wrong cisssssty name'))
 })
+
+//Delete city
+var deleteCity=function(){
+		console.log("Delete City...");
+
+		var listItem=this.parentNode;
+		var ctyoutput=listItem.parentNode;
+        var divCl=ctyoutput.parentNode
+		//Remove the parent list item from the ul.
+		cityholder.removeChild(divCl);
+
+}
+
 
 var ajaxRequest=function(){
 console.log("AJAX Request");
@@ -386,6 +409,10 @@ var bindTaskEvents=function(cityItem){
 console.log("bind city list");
 
 document.getElementById("myselection").value="Abdul";
+
+//var deleteButton=cityItem.querySelector("");
+
+//deleteButton.onclick=deleteCity;
 
 }
 </script>
